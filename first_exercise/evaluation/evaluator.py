@@ -1,11 +1,12 @@
 from validators.checks import HtmlSuite, TestSuite, ChecklistItem, BoilerplateTestSuite, Check
 from bs4 import BeautifulSoup
+from utils.file_loaders import json_loader
 import json
 import numpy as np
 import ast
 
 
-def create_suites(content: str) -> list[TestSuite]:
+def create_suites(content: str, solution: str) -> list[TestSuite]:
     cvg = CVGSuite(content)
     cvg.make_item("Vergelijk het aantal codeblokken",
                   cvg.compare_nodeslength())
@@ -38,7 +39,7 @@ class CVGSuite(BoilerplateTestSuite):
         self.cont_nodes = content["nodes"]
         self.cont_edges = content["edges"]
 
-        solution_content: str = json_loader("./solution.json", shorted=False)
+        solution_content: str = json_loader("solution.json", shorted=False)
         self.sol_nodes = solution_content["nodes"]
         self.sol_edges = solution_content["edges"]
         self.succes_tests = True
@@ -149,19 +150,3 @@ class CVGSuite(BoilerplateTestSuite):
             return self.succes_tests
 
         return Check(_inner)
-
-
-def json_loader(file_path: str, **kwargs) -> dict:
-    """Utility function to load a JSON file in order to use the content
-        param file_path: the full path to the file
-        kwargs:
-            param: shorted=False => dont extend the path with .html (default is True)
-
-    """
-    # Allow only the name to be passed (shorter)
-    if kwargs.get("shorted", True) and not file_path.endswith(".json"):
-        file_path += ".json"
-
-    with open(file_path, "r") as f:
-        import json
-        return json.load(f)
