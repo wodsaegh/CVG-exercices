@@ -1,7 +1,6 @@
 {
   "image": "dodona/dodona-html",
   "natural_language": "nl",
-  "resources": "first_exercise/evaluation/",
   "judge": ".",
   "workdir": "workdir/",
   "memory_limit": 536870912,
