@@ -7,7 +7,7 @@ import ast
 
 
 def create_suites(content: str, solution: str) -> list[TestSuite]:
-    cvg = CVGSuite(content)
+    cvg = CVGSuite(content, solution)
     cvg.make_item("Vergelijk het aantal codeblokken",
                   cvg.compare_nodeslength())
     cvg.make_item("Vergelijk het aantal pijlen", cvg.compare_edgeslength())
@@ -31,7 +31,7 @@ class CVGSuite(BoilerplateTestSuite):
     sol_edges: list
     succes_tests: bool
 
-    def __init__(self, content: str, check_recommended: bool = True, allow_warnings: bool = True, abort: bool = True, check_minimal: bool = False):
+    def __init__(self, content: str, solution: str, check_recommended: bool = True, allow_warnings: bool = True, abort: bool = True, check_minimal: bool = False):
         super().__init__("CVG", content, check_recommended, check_minimal)
 
         content = ast.literal_eval(content)
@@ -39,7 +39,7 @@ class CVGSuite(BoilerplateTestSuite):
         self.cont_nodes = content["nodes"]
         self.cont_edges = content["edges"]
 
-        solution_content: str = json_loader("solution.json", shorted=False)
+        solution_content: str = solution
         self.sol_nodes = solution_content["nodes"]
         self.sol_edges = solution_content["edges"]
         self.succes_tests = True
