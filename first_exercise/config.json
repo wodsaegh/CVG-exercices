@@ -1,0 +1,11 @@
+{
+  "image": "dodona/dodona-python",
+  "source": "wrong.json",
+  "natural_language": "nl",
+  "resources": "evaluation/",
+  "judge": ".",
+  "workdir": "workdir/",
+  "memory_limit": 536870912,
+  "time_limit": 60,
+  "programming_language": "CVG"
+}
