@@ -1,6 +1,5 @@
 from validators.checks import HtmlSuite, TestSuite, ChecklistItem, BoilerplateTestSuite, Check
 from bs4 import BeautifulSoup
-from utils.file_loaders import json_loader
 import json
 import numpy as np
 import ast
@@ -39,7 +38,7 @@ class CVGSuite(BoilerplateTestSuite):
         self.cont_nodes = content["nodes"]
         self.cont_edges = content["edges"]
 
-        solution_content: str = json_loader("solution.json", shorted=False)
+        solution_content: str = json_loader("./solution.json", shorted=False)
         self.sol_nodes = solution_content["nodes"]
         self.sol_edges = solution_content["edges"]
         self.succes_tests = True
@@ -135,9 +134,11 @@ class CVGSuite(BoilerplateTestSuite):
             user_edges.sort()
             sol_edges.sort()
             if len(user_edges) != len(sol_edges):
+                self.succes_tests == False
                 return False
             for i in range(len(user_edges)):
                 if user_edges[i][0] != sol_edges[i][0] or user_edges[i][1] != sol_edges[i][1] or user_edges[i][2] != sol_edges[i][2]:
+                    self.succes_tests == False
                     return False
             return True
 
@@ -149,3 +150,18 @@ class CVGSuite(BoilerplateTestSuite):
 
         return Check(_inner)
 
+
+def json_loader(file_path: str, **kwargs) -> dict:
+    """Utility function to load a JSON file in order to use the content
+        param file_path: the full path to the file
+        kwargs:
+            param: shorted=False => dont extend the path with .html (default is True)
+
+    """
+    # Allow only the name to be passed (shorter)
+    if kwargs.get("shorted", True) and not file_path.endswith(".json"):
+        file_path += ".json"
+
+    with open(file_path, "r") as f:
+        import json
+        return json.load(f)

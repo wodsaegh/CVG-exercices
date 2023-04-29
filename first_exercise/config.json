@@ -1,9 +1,14 @@
 {
-  "image": "dodona/dodona-python",
-  "natural_language": "nl",
-  "judge": ".",
-  "workdir": "workdir/",
-  "memory_limit": 536870912,
-  "time_limit": 60,
-  "programming_language": "CVG"
+  "description": {
+    "names": {
+      "nl": "Minimaal voorbeeld",
+      "en": "Minimal example"
+    }
+  },
+  "type": "exercise",
+  "programming_language": "CVG",
+  "labels": [],
+  "evaluation": {
+    "handler": "CVG"
+  }
 }
